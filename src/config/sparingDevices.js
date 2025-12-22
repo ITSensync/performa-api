@@ -1,0 +1,98 @@
+module.exports = {
+    sparing01: {
+        table: 'sparing01',
+        title: 'Gistex',
+        latitude: -6.9374571,
+        longitude: 107.5364919,
+    },
+    sparing02: {
+        table: 'sparing02',
+        title: 'Indorama PWK',
+        latitude: -6.5531083,
+        longitude: 107.4101544,
+    },
+    // sparing03: {
+    //     table: 'sparing01',
+    //     title: 'Gistex',
+    //     latitude: -6.9374571,
+    //     longitude: 107.5364919,
+    // },
+     sparing04: {
+        table: 'sparing04',
+        title: 'Innojaya',
+        latitude: -6.8953855,
+        longitude: 107.4959834,
+    },
+     sparing05: {
+        table: 'sparing05',
+        title: 'Besland',
+        latitude: -6.4493131,
+        longitude: 107.4572677,
+    },
+     sparing06: {
+        table: 'sparing06',
+        title: 'Indotaisei',
+        latitude: -6.4244492,
+        longitude: 107.4187869,
+    },
+     sparing07: {
+        table: 'sparing07',
+        title: 'Daliatex',
+        latitude: -6.9801221,
+        longitude: 107.6185288,
+    },
+     sparing08: {
+        table: 'sparing08',
+        title: 'Papyrus',
+        latitude: -7.0384787,
+        longitude: 107.5906626,
+    },
+     sparing09: {
+        table: 'sparing09',
+        title: 'BCP',
+        latitude: -7.0465691,
+        longitude: 107.7506977,
+    },
+     sparing10: {
+        table: 'sparing10',
+        title: 'Pangjaya',
+        latitude: -6.9011245,
+        longitude: 107.4633001,
+    },
+     sparing11: {
+        table: 'sparing11',
+        title: 'LPA',
+        latitude: -6.2830635,
+        longitude: 107.0302436,
+    },
+     sparing12: {
+        table: 'sparing12',
+        title: 'Kertas Padalarang',
+        latitude: -6.9143553,
+        longitude: 107.6354828,
+    },
+     sparing13: {
+        table: 'sparing13',
+        title: 'SSM',
+        latitude: -6.9143553,
+        longitude: 107.6354829,
+    },
+      weaving01: {
+        table: 'weaving01',
+        title: 'Indorama PWK weaving01',
+        latitude: -6.5531083,
+        longitude: 107.4101544,
+    },
+     weaving02: {
+        table: 'weaving02',
+        title: 'Indorama PWK weaving02',
+        latitude: -6.5531083,
+        longitude: 107.4101544,
+    },
+      spinning: {
+        table: 'spinning',
+        title: 'Indorama PWK spinning',
+        latitude: -6.5531083,
+        longitude: 107.4101544,
+    },
+};
