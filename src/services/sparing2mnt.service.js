@@ -96,13 +96,26 @@ function formatDate(date) {
  * WEEKLY BY ID
  * /sparing/sparing-weekly-data/{id}
  */
-exports.getWeeklyById = async (id) => {
+exports.getWeeklyById = async (id, month, year) => {
   // mapping device → table & title (samakan dengan Laravel)
   const devices = {
     sparing01: { table: 'sparing01', title: 'Gistex' },
-    sparing02: { table: 'sparing02', title: 'sparing02' },
-    sparing03: { table: 'sparing03', title: 'sparing03' }
-    // tambahkan sampai sparing13
+    sparing02: { table: 'sparing02', title: 'Indorama PWK' },
+    sparing03: { table: 'sparing03', title: 'PMT' },
+    sparing04: { table: 'sparing04', title: 'Innojaya Textil' },
+    sparing04: { table: 'sparing04', title: 'Indorama PDL' },
+    sparing05: { table: 'sparing05', title: 'Besland' },
+    sparing06: { table: 'sparing06', title: 'Indotaisei' },
+    sparing07: { table: 'sparing07', title: 'Daliatex' },
+    sparing08: { table: 'sparing08', title: 'Papyrus' },
+    sparing09: { table: 'sparing09', title: 'BCP' },
+    sparing10: { table: 'sparing10', title: 'Pangjaya' },
+    sparing11: { table: 'sparing11', title: 'LPA' },
+    sparing12: { table: 'sparing12', title: 'Kertas PDL' },
+    sparing13: { table: 'sparing13', title: 'SSM' },
+    weaving01: { table: 'weaving01', title: 'Indorama PWK Weaving01' },
+    weaving02: { table: 'weaving02', title: 'Indorama PWK Weaving02' },
+    spinning: { table: 'spinning', title: 'Indorama PWK Spinning' },
   };
 
   const device = devices[id];
@@ -128,19 +141,19 @@ exports.getWeeklyById = async (id) => {
       COUNT(*) AS data_count
     FROM ${device.table}
     WHERE
-      YEAR(time) = YEAR(CURDATE())
-      AND MONTH(time) = MONTH(CURDATE())
+      MONTH(time) = ?
+      AND YEAR(time) = ?
     GROUP BY week, year
     ORDER BY week ASC
   `;
 
-  const [rows] = await db.query(sql);
+  const [rows] = await db.query(sql, [month, year]);
 
   const data = rows.map(row => {
     // jumlah hari dalam interval (inklusif)
     const days =
       (new Date(row.end_date) - new Date(row.start_date)) /
-        (1000 * 60 * 60 * 24) + 1;
+      (1000 * 60 * 60 * 24) + 1;
 
     // interval 2 menit → 720 data / hari
     const expected = days * 720;
@@ -246,7 +259,7 @@ exports.getMonthlyByArea = async (area, month, year) => {
     message: 'Success',
     data: [
       {
-        id: 'sparing', 
+        id: 'sparing',
         title: getAreaTitle(area),
         average_percent: avg
       }
