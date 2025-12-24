@@ -56,7 +56,7 @@ function getSitesByArea(area) {
     }));
 }
 
-async function getMonthlyPercentByTable(table) {
+async function getMonthlyPercentByTable(table, month, year) {
   const sql = `
     SELECT
       COUNT(*) AS total,
@@ -64,11 +64,11 @@ async function getMonthlyPercentByTable(table) {
       MAX(DATE(time)) AS last_date
     FROM ${table}
     WHERE
-      YEAR(time) = YEAR(CURDATE())
-      AND MONTH(time) = MONTH(CURDATE())
+      MONTH(time) = ?
+      AND YEAR(time) = ?
   `;
 
-  const [[row]] = await db.query(sql);
+  const [[row]] = await db.query(sql, [month, year]);
 
   if (!row || row.total === 0) return null;
 
@@ -221,14 +221,14 @@ exports.getMonthlyPercentages = async () => {
  * /sparing/percentages/{area}
  */
 
-exports.getMonthlyByArea = async (area) => {
+exports.getMonthlyByArea = async (area, month, year) => {
   const sites = getSitesByArea(area);
 
   let sumPercent = 0;
   let validCount = 0;
 
   for (const site of sites) {
-    const percent = await getMonthlyPercentByTable(site.table);
+    const percent = await getMonthlyPercentByTable(site.table, month, year);
 
     if (percent !== null) {
       sumPercent += percent;

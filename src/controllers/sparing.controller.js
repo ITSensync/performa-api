@@ -24,17 +24,25 @@ exports.monthly = async (req, res) => {
 };
 
 exports.monthlyAll = async (req, res) => {
-  res.json(await service.getMonthlyByArea('all'));
+  const { month, year } = req.params
+  // console.log(req.param)
+  res.json(await service.getMonthlyByArea('all', month, year));
 };
 
 exports.monthlyBandung = async (req, res) => {
-  res.json(await service.getMonthlyByArea('bandung'));
+  const { month, year } = req.params
+
+  res.json(await service.getMonthlyByArea('bandung', month, year));
 };
 
 exports.monthlyNonBandung = async (req, res) => {
-  res.json(await service.getMonthlyByArea('nonbandung'));
+  const { month, year } = req.params
+
+  res.json(await service.getMonthlyByArea('nonbandung', month, year));
 };
 
 exports.monthlyPWK = async (req, res) => {
-  res.json(await service.getMonthlyByArea('pwk'));
+  const { month, year } = req.params
+
+  res.json(await service.getMonthlyByArea('pwk', month, year));
 };

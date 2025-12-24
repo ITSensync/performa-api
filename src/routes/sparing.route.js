@@ -13,10 +13,10 @@ const sparingHoursCtrl = require('../controllers/sparingHours.controller');
 ====================== */
 router.get('/sparing-weekly-data/:id', sparingCtrl.weeklyById);
 router.get('/percentages', sparingCtrl.monthly);
-router.get('/percentages/all', sparingCtrl.monthlyAll);
-router.get('/percentages/bandung', sparingCtrl.monthlyBandung);
-router.get('/percentages/nonbandung', sparingCtrl.monthlyNonBandung);
-router.get('/percentages/pwk', sparingCtrl.monthlyPWK);
+router.get('/percentages/all/:month/:year', sparingCtrl.monthlyAll);
+router.get('/percentages/bandung/:month/:year', sparingCtrl.monthlyBandung);
+router.get('/percentages/nonbandung/:month/:year', sparingCtrl.monthlyNonBandung);
+router.get('/percentages/pwk/:month/:year', sparingCtrl.monthlyPWK);
 
 
 /* ======================
