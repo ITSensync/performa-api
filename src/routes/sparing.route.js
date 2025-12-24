@@ -22,7 +22,7 @@ router.get('/percentages/pwk/:month/:year', sparingCtrl.monthlyPWK);
 /* ======================
    SPARING PER JAM
 ====================== */
-router.get('/sparing/sparing-hours-data/:id', sparingHoursCtrl.weeklyById);
+router.get('/previous-month-data-hours/:id/:month/:year', sparingHoursCtrl.weeklyById);
 router.get('/percentages-hours/all', sparingHoursCtrl.monthlyAll);
 router.get('/percentages-hours/bandung', sparingHoursCtrl.monthlyBandung);
 router.get('/percentages-hours/nonbandung', sparingHoursCtrl.monthlyNonBandung);

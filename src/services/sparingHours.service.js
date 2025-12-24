@@ -82,38 +82,37 @@ async function getMonthlyPercentHoursByTable(table) {
 /* ===============================
    WEEKLY DATA BY ID (PER JAM)
 ================================ */
-exports.getWeeklyById = async (id) => {
-  const table = `${id}_lap`;
+exports.getWeeklyById = async (id, month, year) => {
+  const table = `${id}`;
   if (!SITES[table]) return null;
 
   const sql = `
     SELECT
       (
-        WEEK(time,1)
-        - WEEK(DATE_SUB(time, INTERVAL DAYOFMONTH(time)-1 DAY),1)
+        WEEK(tanggal, 1)
+        - WEEK(DATE_SUB(tanggal, INTERVAL DAYOFMONTH(tanggal)-1 DAY), 1)
         + 1
       ) AS week,
-      MIN(DATE(time)) AS start_date,
-      MAX(DATE(time)) AS end_date,
+      MIN(tanggal) AS start_date,
+      MAX(tanggal) AS end_date,
       COUNT(*) AS total
     FROM ${table}
     WHERE
-      YEAR(time) = YEAR(CURDATE())
-      AND MONTH(time) = MONTH(CURDATE())
+      YEAR(tanggal) = ?
+      AND MONTH(tanggal) = ?
     GROUP BY week
     ORDER BY week
   `;
 
-  const [rows] = await db.query(sql);
+  const [rows] = await db.query(sql, [year, month]);
 
   const data = rows.map(r => {
     const days =
       Math.floor(
-        (new Date(r.end_date) - new Date(r.start_date)) /
-        86400000
+        (new Date(r.end_date) - new Date(r.start_date)) / 86400000
       ) + 1;
 
-    const expected = days * 24; // ⬅️ PER JAM
+    const expected = days * 24; // ⬅️ per jam
     const percent =
       expected > 0
         ? ((r.total / expected) * 100).toFixed(2)

@@ -1,7 +1,8 @@
 const service = require('../services/sparingHours.service');
 
 exports.weeklyById = async (req, res) => {
-  const result = await service.getWeeklyById(req.params.id);
+  const { id, month, year } = req.params;
+  const result = await service.getWeeklyById(id, month, year);
 
   if (!result) {
     return res.status(404).json({
