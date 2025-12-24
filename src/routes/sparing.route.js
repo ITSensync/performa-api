@@ -11,7 +11,7 @@ const sparingHoursCtrl = require('../controllers/sparingHours.controller');
 /* ======================
    SPARING PER 2 MENIT
 ====================== */
-router.get('/sparing-weekly-data/:id/:month/:year', sparingCtrl.weeklyById);
+router.get('/previous-month-data/:id/:month/:year', sparingCtrl.weeklyById);
 router.get('/percentages', sparingCtrl.monthly);
 router.get('/percentages/all/:month/:year', sparingCtrl.monthlyAll);
 router.get('/percentages/bandung/:month/:year', sparingCtrl.monthlyBandung);
