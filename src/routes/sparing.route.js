@@ -23,9 +23,9 @@ router.get('/percentages/pwk/:month/:year', sparingCtrl.monthlyPWK);
    SPARING PER JAM
 ====================== */
 router.get('/sparing/sparing-hours-data/:id', sparingHoursCtrl.weeklyById);
-router.get('/sparing/percentages-hours/all', sparingHoursCtrl.monthlyAll);
-router.get('/sparing/percentages-hours/bandung', sparingHoursCtrl.monthlyBandung);
-router.get('/sparing/percentages-hours/nonbandung', sparingHoursCtrl.monthlyNonBandung);
-router.get('/sparing/percentages-hours/pwk', sparingHoursCtrl.monthlyPWK);
+router.get('/percentages-hours/all', sparingHoursCtrl.monthlyAll);
+router.get('/percentages-hours/bandung', sparingHoursCtrl.monthlyBandung);
+router.get('/percentages-hours/nonbandung', sparingHoursCtrl.monthlyNonBandung);
+router.get('/percentages-hours/pwk', sparingHoursCtrl.monthlyPWK);
 
 module.exports = router;

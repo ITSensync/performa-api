@@ -57,12 +57,12 @@ async function getMonthlyPercentHoursByTable(table) {
   const sql = `
     SELECT
       COUNT(*) AS total,
-      MIN(DATE(time)) AS start_date,
-      MAX(DATE(time)) AS end_date
+      MIN(tanggal) AS start_date,
+      MAX(tanggal) AS end_date
     FROM ${table}
     WHERE
-      YEAR(time) = YEAR(CURDATE())
-      AND MONTH(time) = MONTH(CURDATE())
+      YEAR(tanggal) = YEAR(CURDATE())
+      AND MONTH(tanggal) = MONTH(CURDATE())
   `;
 
   const [[row]] = await db.query(sql);
@@ -70,14 +70,14 @@ async function getMonthlyPercentHoursByTable(table) {
 
   const days =
     Math.floor(
-      (new Date(row.end_date) - new Date(row.start_date)) /
-      86400000
+      (new Date(row.end_date) - new Date(row.start_date)) / 86400000
     ) + 1;
 
-  const expected = days * 24; // ⬅️ PER JAM
+  const expected = days * 24; // ⬅️ target per jam
 
   return (row.total / expected) * 100;
 }
+
 
 /* ===============================
    WEEKLY DATA BY ID (PER JAM)
