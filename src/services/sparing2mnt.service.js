@@ -64,11 +64,18 @@ async function getMonthlyPercentByTable(table, month, year) {
       MAX(DATE(time)) AS last_date
     FROM ${table}
     WHERE
-      MONTH(time) = ?
-      AND YEAR(time) = ?
+      time >= ?
+      AND time < ?
   `;
+  // tanggal awal bulan
+  const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
 
-  const [[row]] = await db.query(sql, [month, year]);
+  // tanggal awal bulan berikutnya
+  const endDate = new Date(year, month, 1)
+    .toISOString()
+    .slice(0, 10);
+
+  const [[row]] = await db.query(sql, [startDate, endDate]);
 
   if (!row || row.total === 0) return null;
 
