@@ -14,7 +14,7 @@ const SITES = {
   sparing08_lap: { title: 'Papyrus', area: 'bandung' },
   sparing09_lap: { title: 'BCP', area: 'bandung' },
   sparing10_lap: { title: 'Pangjaya', area: 'bandung' },
-  sparing11_lap: { title: 'LPA', area: 'nonbandung' },
+  // sparing11_lap: { title: 'LPA', area: 'nonbandung' },
   sparing12_lap: { title: 'Kertas PDL', area: 'bandung' },
   sparing13_lap: { title: 'SSM', area: 'nonbandung' },
   weaving01_lap: { title: 'Indorama PWK Weaving01', area: 'pwk' },
