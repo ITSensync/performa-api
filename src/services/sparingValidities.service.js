@@ -31,7 +31,7 @@ const BAKU_MUTU = {
     ph_max: 9,
     cod: 175,
     tss: 80,
-    nh3n: 8
+    // nh3n: 8
   }
 };
 
@@ -52,7 +52,8 @@ async function getMonthlyValidityByTable(id, month, year) {
 
   const endDate = `${nextYear}-${String(nextMonth).padStart(2, "0")}-01`;
 
-  const sql = `
+  if (meta.type == "tekstil") {
+    const sql = `
     SELECT
       COUNT(*) AS total,
       SUM(ph BETWEEN ? AND ?) AS ph_normal,
@@ -64,30 +65,65 @@ async function getMonthlyValidityByTable(id, month, year) {
       AND time < ?
   `;
 
-  const params = [
-    mutu.ph_min,
-    mutu.ph_max,
-    mutu.cod,
-    mutu.tss,
-    mutu.nh3n,
-    startDate,
-    endDate
-  ];
+    const params = [
+      mutu.ph_min,
+      mutu.ph_max,
+      mutu.cod,
+      mutu.tss,
+      mutu.nh3n,
+      startDate,
+      endDate
+    ];
 
-  const [[row]] = await db.query(sql, params);
+    const [[row]] = await db.query(sql, params);
 
-  if (!row || row.total === 0) return null;
+    if (!row || row.total === 0) return null;
 
-  const percent = (n) =>
-    Number(((n / row.total) * 100).toFixed(2));
+    const percent = (n) =>
+      Number(((n / row.total) * 100).toFixed(2));
 
-  return {
-    total: row.total,
-    ph_percent: percent(row.ph_normal),
-    cod_percent: percent(row.cod_normal),
-    tss_percent: percent(row.tss_normal),
-    nh3n_percent: percent(row.nh3n_normal)
-  };
+    return {
+      total: row.total,
+      ph_percent: percent(row.ph_normal),
+      cod_percent: percent(row.cod_normal),
+      tss_percent: percent(row.tss_normal),
+      nh3n_percent: percent(row.nh3n_normal)
+    };
+  } else {
+    const sql = `
+    SELECT
+      COUNT(*) AS total,
+      SUM(ph BETWEEN ? AND ?) AS ph_normal,
+      SUM(cod < ?) AS cod_normal,
+      SUM(tss < ?) AS tss_normal,
+    FROM ${id}
+    WHERE time >= ?
+      AND time < ?
+  `;
+
+    const params = [
+      mutu.ph_min,
+      mutu.ph_max,
+      mutu.cod,
+      mutu.tss,
+      startDate,
+      endDate
+    ];
+
+    const [[row]] = await db.query(sql, params);
+
+    if (!row || row.total === 0) return null;
+
+    const percent = (n) =>
+      Number(((n / row.total) * 100).toFixed(2));
+
+    return {
+      total: row.total,
+      ph_percent: percent(row.ph_normal),
+      cod_percent: percent(row.cod_normal),
+      tss_percent: percent(row.tss_normal),
+    };
+  }
 }
 
 
