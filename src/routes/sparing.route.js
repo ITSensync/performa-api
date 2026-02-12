@@ -7,6 +7,8 @@ const sparingCtrl = require('../controllers/sparing.controller');
 // controller per JAM
 const sparingHoursCtrl = require('../controllers/sparingHours.controller');
 
+const sparingValidityCtrl = require('../controllers/sparingValidity.controller');
+
 
 /* ======================
    SPARING PER 2 MENIT
@@ -27,5 +29,10 @@ router.get('/percentages-hours/all', sparingHoursCtrl.monthlyAll);
 router.get('/percentages-hours/bandung', sparingHoursCtrl.monthlyBandung);
 router.get('/percentages-hours/nonbandung', sparingHoursCtrl.monthlyNonBandung);
 router.get('/percentages-hours/pwk', sparingHoursCtrl.monthlyPWK);
+
+/* ======================
+   SPARING VALIDITY
+====================== */
+router.get('/previous-month-validity/:month/:year', sparingValidityCtrl.validityById);
 
 module.exports = router;
