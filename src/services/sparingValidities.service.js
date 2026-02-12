@@ -95,7 +95,7 @@ async function getMonthlyValidityByTable(id, month, year) {
       COUNT(*) AS total,
       SUM(ph BETWEEN ? AND ?) AS ph_normal,
       SUM(cod < ?) AS cod_normal,
-      SUM(tss < ?) AS tss_normal,
+      SUM(tss < ?) AS tss_normal
     FROM ${id}
     WHERE time >= ?
       AND time < ?
