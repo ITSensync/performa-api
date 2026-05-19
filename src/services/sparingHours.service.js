@@ -143,7 +143,7 @@ exports.getMonthlyByArea = async (area) => {
   let count = 0;
 
   for (const table of tables) {
-    const percent = await getMonthlyPercentHoursByTable(table);
+    const percent = await this.getMonthlyPercentHoursByTable(table);
     if (percent !== null) {
       sum += percent;
       count++;

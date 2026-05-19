@@ -223,13 +223,13 @@ exports.getMonthlyPercentages = async () => {
     const avg2mnt =
       weekly.reduce((a, b) => a + b, 0) / weekly.length;
 
-    const avg1hr = getMonthlyPercentHoursByTable(table);
+    const avg1hr = await getMonthlyPercentHoursByTable(table);
 
     result.push({
       id: table,
       title: meta.title,
       average_2mnt_percent: avg2mnt.toFixed(2),
-      average_1hr_percent: avg1hr.toFixed(2)
+      average_1hr_percent: avg1hr
     });
   }
 
