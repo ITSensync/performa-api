@@ -1,5 +1,6 @@
 const db = require('../config/db');
 const { getMonthlyPercentHoursByTable } = require('./sparingHours.service');
+const { getAverageMonthlyValidityBySite } = require('./sparingValidities.service');
 
 /**
  * Mapping tabel → metadata
@@ -225,11 +226,14 @@ exports.getMonthlyPercentages = async () => {
 
     const avg1hr = await getMonthlyPercentHoursByTable(`${table}_lap`);
 
+    const avgValiditas = await getAverageMonthlyValidityBySite(table);
+
     result.push({
       id: table,
       title: meta.title,
       average_2mnt_percent: avg2mnt.toFixed(2),
-      average_1hr_percent: avg1hr
+      average_1hr_percent: avg1hr.toFixed(2),
+      average_validitas_percent: avgValiditas.toFixed(2),
     });
   }
 

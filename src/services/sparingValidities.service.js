@@ -126,6 +126,80 @@ async function getMonthlyValidityByTable(id, month, year) {
   }
 }
 
+exports.getAverageMonthlyValidityBySite = async (table) => {
+
+  const meta = SITES[table];
+  if (!meta) return null;
+
+  const mutu = BAKU_MUTU[meta.type];
+
+  if (meta.type == "tekstil") {
+    const sql = `
+    SELECT
+      COUNT(*) AS total,
+      SUM(ph BETWEEN ? AND ?) AS ph_normal,
+      SUM(cod < ?) AS cod_normal,
+      SUM(tss < ?) AS tss_normal,
+      SUM(nh3n < ?) AS nh3n_normal
+    FROM ${table}
+    WHERE MONTH(time) = MONTH(CURDATE())
+        AND YEAR(time) = YEAR(CURDATE())
+  `;
+
+    const params = [
+      mutu.ph_min,
+      mutu.ph_max,
+      mutu.cod,
+      mutu.tss,
+      mutu.nh3n,
+      startDate,
+      endDate
+    ];
+
+    const [[row]] = await db.query(sql, params);
+
+    if (!row || row.total === 0) return null;
+
+    const percent = (n) =>
+      Number(((n / row.total) * 100).toFixed(2));
+
+    const average = (percent(row.ph_normal) + percent(row.cod_normal) + percent(row.tss_normal) + percent(row.nh3n_normal)) / 4;
+
+    return average;
+  } else {
+    const sql = `
+    SELECT
+      COUNT(*) AS total,
+      SUM(ph BETWEEN ? AND ?) AS ph_normal,
+      SUM(cod < ?) AS cod_normal,
+      SUM(tss < ?) AS tss_normal
+    FROM ${table}
+    WHERE MONTH(time) = MONTH(CURDATE())
+        AND YEAR(time) = YEAR(CURDATE())
+  `;
+
+    const params = [
+      mutu.ph_min,
+      mutu.ph_max,
+      mutu.cod,
+      mutu.tss,
+      startDate,
+      endDate
+    ];
+
+    const [[row]] = await db.query(sql, params);
+
+    if (!row || row.total === 0) return null;
+
+    const percent = (n) =>
+      Number(((n / row.total) * 100).toFixed(2));
+
+    const average = (percent(row.ph_normal) + percent(row.cod_normal) + percent(row.tss_normal)) / 3;
+
+    return average;
+  }
+}
+
 
 exports.getMonthlyValidityAllSites = async (month, year) => {
   const result = [];
