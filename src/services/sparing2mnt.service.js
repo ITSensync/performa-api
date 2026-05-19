@@ -223,7 +223,7 @@ exports.getMonthlyPercentages = async () => {
     const avg2mnt =
       weekly.reduce((a, b) => a + b, 0) / weekly.length;
 
-    const avg1hr = await getMonthlyPercentHoursByTable(table);
+    const avg1hr = await getMonthlyPercentHoursByTable(`${table}_lap`);
 
     result.push({
       id: table,
