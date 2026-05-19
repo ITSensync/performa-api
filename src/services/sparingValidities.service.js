@@ -152,8 +152,6 @@ exports.getAverageMonthlyValidityBySite = async (table) => {
       mutu.cod,
       mutu.tss,
       mutu.nh3n,
-      startDate,
-      endDate
     ];
 
     const [[row]] = await db.query(sql, params);
@@ -183,8 +181,6 @@ exports.getAverageMonthlyValidityBySite = async (table) => {
       mutu.ph_max,
       mutu.cod,
       mutu.tss,
-      startDate,
-      endDate
     ];
 
     const [[row]] = await db.query(sql, params);
