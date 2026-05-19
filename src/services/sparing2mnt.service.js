@@ -1,4 +1,5 @@
 const db = require('../config/db');
+const { getMonthlyPercentHoursByTable } = require('./sparingHours.service');
 
 /**
  * Mapping tabel → metadata
@@ -219,13 +220,16 @@ exports.getMonthlyPercentages = async () => {
       return percent;
     });
 
-    const avg =
+    const avg2mnt =
       weekly.reduce((a, b) => a + b, 0) / weekly.length;
+
+    const avg1hr = getMonthlyPercentHoursByTable(table);
 
     result.push({
       id: table,
       title: meta.title,
-      average_percent: avg.toFixed(2)
+      average_2mnt_percent: avg2mnt.toFixed(2),
+      average_1hr_percent: avg1hr.toFixed(2)
     });
   }
 

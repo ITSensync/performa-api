@@ -53,7 +53,7 @@ function formatDate(date) {
 /* ===============================
    MONTHLY % PER JAM (1 TABEL)
 ================================ */
-async function getMonthlyPercentHoursByTable(table) {
+exports.getMonthlyPercentHoursByTable = async (table) => {
   const sql = `
     SELECT
       COUNT(*) AS total,
