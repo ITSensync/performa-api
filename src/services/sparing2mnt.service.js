@@ -193,9 +193,15 @@ exports.getWeeklyById = async (id, month, year) => {
  * /sparing/percentages
  */
 exports.getMonthlyPercentages = async () => {
-  const result = [];
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+  const nextMonth = month === 12 ? 1 : month + 1;
+  const nextYear = month === 12 ? year + 1 : year;
+  const endDate = `${nextYear}-${String(nextMonth).padStart(2, '0')}-01`;
 
-  for (const [table, meta] of Object.entries(SITES)) {
+  const result = await Promise.all(Object.entries(SITES).map(async ([table, meta]) => {
     const [rows] = await db.query(`
       SELECT 
         WEEK(time, 1) AS week,
@@ -203,12 +209,12 @@ exports.getMonthlyPercentages = async () => {
         MAX(time) AS end_time,
         COUNT(*) AS total
       FROM ${table}
-      WHERE MONTH(time) = MONTH(CURDATE())
-        AND YEAR(time) = YEAR(CURDATE())
+      WHERE time >= ?
+        AND time < ?
       GROUP BY week
-    `);
+    `, [startDate, endDate]);
 
-    if (rows.length === 0) continue; // ⛔ Laravel behavior
+    if (rows.length === 0) return null;
 
     const weekly = rows.map(r => {
       const days = Math.ceil(
@@ -224,23 +230,24 @@ exports.getMonthlyPercentages = async () => {
     const avg2mnt =
       weekly.reduce((a, b) => a + b, 0) / weekly.length;
 
-    const avg1hr = await getMonthlyPercentHoursByTable(`${table}_lap`);
+    const [avg1hr, avgValiditas] = await Promise.all([
+      getMonthlyPercentHoursByTable(`${table}_lap`),
+      getAverageMonthlyValidityBySite(table)
+    ]);
 
-    const avgValiditas = await getAverageMonthlyValidityBySite(table);
-
-    result.push({
+    return {
       id: table,
       title: meta.title,
       average_2mnt_percent: avg2mnt.toFixed(2),
-      average_1hr_percent: avg1hr.toFixed(2),
-      average_validitas_percent: avgValiditas.toFixed(2),
-    });
-  }
+      average_1hr_percent: Number(avg1hr || 0).toFixed(2),
+      average_validitas_percent: Number(avgValiditas || 0).toFixed(2),
+    };
+  }));
 
   return {
     status: 'OK',
     message: 'Success',
-    data: result
+    data: result.filter(Boolean)
   };
 };
 
@@ -281,4 +288,3 @@ exports.getMonthlyByArea = async (area, month, year) => {
     ]
   };
 };
-

@@ -54,6 +54,14 @@ function formatDate(date) {
    MONTHLY % PER JAM (1 TABEL)
 ================================ */
 exports.getMonthlyPercentHoursByTable = async (table) => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+  const nextMonth = month === 12 ? 1 : month + 1;
+  const nextYear = month === 12 ? year + 1 : year;
+  const endDate = `${nextYear}-${String(nextMonth).padStart(2, '0')}-01`;
+
   const sql = `
     SELECT
       COUNT(*) AS total,
@@ -61,11 +69,11 @@ exports.getMonthlyPercentHoursByTable = async (table) => {
       MAX(tanggal) AS end_date
     FROM ${table}
     WHERE
-      YEAR(tanggal) = YEAR(CURDATE())
-      AND MONTH(tanggal) = MONTH(CURDATE())
+      tanggal >= ?
+      AND tanggal < ?
   `;
 
-  const [[row]] = await db.query(sql);
+  const [[row]] = await db.query(sql, [startDate, endDate]);
   if (!row || row.total === 0) return null;
 
   const days =

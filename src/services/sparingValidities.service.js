@@ -132,6 +132,13 @@ exports.getAverageMonthlyValidityBySite = async (table) => {
   if (!meta) return null;
 
   const mutu = BAKU_MUTU[meta.type];
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+  const nextMonth = month === 12 ? 1 : month + 1;
+  const nextYear = month === 12 ? year + 1 : year;
+  const endDate = `${nextYear}-${String(nextMonth).padStart(2, '0')}-01`;
 
   if (meta.type == "tekstil") {
     const sql = `
@@ -142,8 +149,8 @@ exports.getAverageMonthlyValidityBySite = async (table) => {
       SUM(tss < ?) AS tss_normal,
       SUM(nh3n < ?) AS nh3n_normal
     FROM ${table}
-    WHERE MONTH(time) = MONTH(CURDATE())
-        AND YEAR(time) = YEAR(CURDATE())
+    WHERE time >= ?
+        AND time < ?
   `;
 
     const params = [
@@ -152,6 +159,8 @@ exports.getAverageMonthlyValidityBySite = async (table) => {
       mutu.cod,
       mutu.tss,
       mutu.nh3n,
+      startDate,
+      endDate
     ];
 
     const [[row]] = await db.query(sql, params);
@@ -172,8 +181,8 @@ exports.getAverageMonthlyValidityBySite = async (table) => {
       SUM(cod < ?) AS cod_normal,
       SUM(tss < ?) AS tss_normal
     FROM ${table}
-    WHERE MONTH(time) = MONTH(CURDATE())
-        AND YEAR(time) = YEAR(CURDATE())
+    WHERE time >= ?
+        AND time < ?
   `;
 
     const params = [
@@ -181,6 +190,8 @@ exports.getAverageMonthlyValidityBySite = async (table) => {
       mutu.ph_max,
       mutu.cod,
       mutu.tss,
+      startDate,
+      endDate
     ];
 
     const [[row]] = await db.query(sql, params);
@@ -219,4 +230,3 @@ exports.getMonthlyValidityAllSites = async (month, year) => {
     data: result
   };
 };
-
