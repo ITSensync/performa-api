@@ -192,10 +192,7 @@ exports.getWeeklyById = async (id, month, year) => {
  * MONTHLY PERCENTAGES (ALL ACTIVE SITES)
  * /sparing/percentages
  */
-exports.getMonthlyPercentages = async () => {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1;
+exports.getMonthlyPercentages = async (month, year) => {
   const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
   const nextMonth = month === 12 ? 1 : month + 1;
   const nextYear = month === 12 ? year + 1 : year;

@@ -14,7 +14,7 @@ const sparingValidityCtrl = require('../controllers/sparingValidity.controller')
    SPARING PER 2 MENIT
 ====================== */
 router.get('/previous-month-data/:id/:month/:year', sparingCtrl.weeklyById);
-router.get('/percentages', sparingCtrl.monthly);
+router.get('/percentages/:month/:year', sparingCtrl.monthly);
 router.get('/percentages/all/:month/:year', sparingCtrl.monthlyAll);
 router.get('/percentages/bandung/:month/:year', sparingCtrl.monthlyBandung);
 router.get('/percentages/nonbandung/:month/:year', sparingCtrl.monthlyNonBandung);
