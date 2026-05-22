@@ -22,7 +22,7 @@ exports.weeklyById = async (req, res) => {
 
 exports.monthly = async (req, res) => {
   const { month, year } = req.params;
-  res.json(await service.getMonthlyPercentages(month, year));
+  res.json(await service.getMonthlyPercentages(Number(month), Number(year)));
 };
 
 exports.monthlyAll = async (req, res) => {
