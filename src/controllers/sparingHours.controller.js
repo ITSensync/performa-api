@@ -22,20 +22,20 @@ exports.weeklyById = async (req, res) => {
 
 exports.monthlyAll = async (req, res) => {
   const { month, year } = req.params;
-  res.json(await service.getMonthlyByArea('all', month, year));
+  res.json(await service.getMonthlyByArea('all', Number(month), Number(year)));
 };
 
 exports.monthlyBandung = async (req, res) => {
   const { month, year } = req.params;
-  res.json(await service.getMonthlyByArea('bandung', month, year));
+  res.json(await service.getMonthlyByArea('bandung', Number(month), Number(year)));
 };
 
 exports.monthlyNonBandung = async (req, res) => {
   const { month, year } = req.params;
-  res.json(await service.getMonthlyByArea('nonbandung', month, year));
+  res.json(await service.getMonthlyByArea('nonbandung', Number(month), Number(year)));
 };
 
 exports.monthlyPWK = async (req, res) => {
   const { month, year } = req.params;
-  res.json(await service.getMonthlyByArea('pwk', month, year));
+  res.json(await service.getMonthlyByArea('pwk', Number(month), Number(year)));
 };
