@@ -53,12 +53,12 @@ function formatDate(date) {
 /* ===============================
    MONTHLY % PER JAM (1 TABEL)
 ================================ */
-exports.getMonthlyPercentHoursByTable = async (table) => {
+exports.getMonthlyPercentHoursByTable = async (table, month, year) => {
   const now = new Date();
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1;
-  const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
-  const nextMonth = month === 12 ? 1 : month + 1;
+  const yr = year || now.getFullYear();
+  const mo = month || now.getMonth() + 1;
+  const startDate = `${yr}-${String(mo).padStart(2, '0')}-01`;
+  const nextMonth = mo === 12 ? 1 : mo + 1;
   const nextYear = month === 12 ? year + 1 : year;
   const endDate = `${nextYear}-${String(nextMonth).padStart(2, '0')}-01`;
 
@@ -144,14 +144,14 @@ exports.getWeeklyById = async (id, month, year) => {
 /* ===============================
    MONTHLY AVG BY AREA (PER JAM)
 ================================ */
-exports.getMonthlyByArea = async (area) => {
+exports.getMonthlyByArea = async (area, month, year) => {
   const tables = getSitesByArea(area);
 
   let sum = 0;
   let count = 0;
 
   for (const table of tables) {
-    const percent = await this.getMonthlyPercentHoursByTable(table);
+    const percent = await this.getMonthlyPercentHoursByTable(table, month, year);
     if (percent !== null) {
       sum += percent;
       count++;
