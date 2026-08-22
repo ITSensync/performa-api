@@ -13,6 +13,8 @@ const SITES = {
   // sparing11_lap: { title: 'LPA', area: 'nonbandung' },
   sparing12: { title: 'Kertas PDL', area: 'bandung', type: "non-tekstil" },
   sparing13: { title: 'SSM', area: 'nonbandung', type: "tekstil" },
+  sparing14: { title: 'SDO', area: 'nonbandung', type: "tekstil" },
+  sparing15: { title: 'Ayoetex', area: 'bandung', type: "tekstil" },
   /*  weaving01_lap: { title: 'Indorama PWK Weaving01', area: 'pwk' },
    weaving02_lap: { title: 'Indorama PWK Weaving02', area: 'pwk' }, */
   spinning: { title: 'Indorama PWK Spinning', area: 'pwk', type: "tekstil" }
